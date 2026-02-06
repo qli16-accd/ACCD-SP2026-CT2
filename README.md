@@ -1,2 +1,2 @@
-# ACCD-Fall2025-CT1
-A collection of work in the fall of 2025 at the ArtCenter College of Design graduate program.
+# ACCD-Spring2026-CT2
+A collection of work in the Spring of 2026 at the ArtCenter College of Design graduate program.
