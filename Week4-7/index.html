@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jellyfish Fields Dream Space — Unity Documentation</title>
+  <style>
+    :root{
+      --bg:#fafafa;
+      --card:#ffffff;
+      --text:#222;
+      --muted:#666;
+      --line:#e6e6e6;
+    }
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+      line-height:1.7;
+      color:var(--text);
+      background:var(--bg);
+    }
+    header{
+      padding:3.5rem 10vw 2.5rem;
+      background:var(--card);
+      border-bottom:1px solid var(--line);
+    }
+    h1{
+      font-size:2.3rem;
+      margin:0 0 .6rem 0;
+      letter-spacing:-.02em;
+    }
+    .sub{
+      max-width:860px;
+      color:var(--muted);
+      margin:0;
+    }
+    section{
+      padding:2.5rem 10vw;
+    }
+    h2{
+      font-size:1.5rem;
+      margin:0 0 1rem 0;
+    }
+    p{
+      max-width:860px;
+      margin:.8rem 0;
+    }
+    ul{
+      max-width:860px;
+      margin:.8rem 0 0 1.1rem;
+    }
+    .image-block{
+      margin:1.2rem 0 1.8rem 0;
+    }
+    .image-block img{
+      width:100%;
+      max-width:980px;
+      border-radius:10px;
+      display:block;
+      border:1px solid var(--line);
+      background:#fff;
+    }
+    /* smaller reference image */
+    .image-block img.small{
+      max-width:600px;
+    }
+    /* responsive video container */
+    .video-embed{
+      position:relative;
+      width:100%;
+      padding-bottom:56.25%; /* 16:9 aspect ratio */
+      height:0;
+      overflow:hidden;
+    }
+    .video-embed iframe{
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      border:0;
+    }
+    .caption{
+      font-size:.9rem;
+      color:var(--muted);
+      margin-top:.5rem;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:1.2rem;
+    }
+    @media (min-width: 980px){
+      .grid{grid-template-columns:1fr 1fr;}
+    }
+    footer{
+      padding:2.5rem 10vw;
+      font-size:.9rem;
+      color:var(--muted);
+      border-top:1px solid var(--line);
+      background:var(--card);
+    }
+    .note{
+      font-size:.95rem;
+      color:var(--muted);
+    }
+    code{
+      background:#f1f1f1;
+      padding:.1rem .3rem;
+      border-radius:6px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Jellyfish Fields Dream Space — Unity Documentation</h1>
+  <p>Ruby Li, qli16@inside.artcenter.edu</p>
+  <p class="sub">
+    This project is a simple interactive dream space inspired by SpongeBob SquarePants, especially the Jellyfish Fields in Bikini Bottom.
+    I used Unity to build the environment and interactions, and I also used AI tools to help generate some visual assets.
+  </p>
+</header>
+
+<section class="video-section">
+  <div class="image-block video-embed">
+    <!-- Embedded Google Drive video (make sure sharing is set to "anyone with the link") -->
+    <iframe src="https://drive.google.com/file/d/1TDfZCTOuMGNGpfZQXiqNafDLjoZYT5LQ/preview" allow="autoplay"></iframe>
+  </div>
+  <div class="caption">Final gameplay video of the Jellyfish Fields dream space (hosted on Google Drive).</div>
+  <p class="note">The original video file is too large to store in this repo. It is linked from Google Drive; click or play above to watch.</p>
+</section>
+
+<section>
+  <h2>1) Initial Idea and Inspiration</h2>
+
+  <div class="image-block">
+    <img class="small" src="reference.jpg" alt="reference image" />
+    <div class="caption">Reference I found on the internet for the jellyfish field concept.</div>
+  </div>
+
+  <p>
+    I took my inspiration from the scene in <em>SpongeBob SquarePants</em> where SpongeBob and Patrick are jelly‑fishing. It felt cute and fun, a perfect match for an interactive experiment.
+  </p>
+
+  <p>
+    The plan was simple: build a grassy, hilly “jellyfish field”, add floating characters and jellyfish, and let the player walk around and try to catch them.
+  </p>
+</section>
+
+<section>
+  <h2>2) Environment Building in Unity</h2>
+
+  <div class="grid">
+    <div>
+      <p>
+        The terrain was made with Unity’s terrain editor. I sculpted a lawn with gentle slopes and used a cartoon-style grass asset from the Unity Asset Store to give it an anime look.
+      </p>
+
+      <p>
+        A basic first‑person controller lets the user move around and feel like they are walking through the field.
+      </p>
+    </div>
+
+    <div class="image-block">
+      <img src="terrain-process.png" alt="Terrain building process in Unity" />
+      <div class="caption">Building the terrain and shaping the rolling underwater landscape in Unity.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>3) Characters and Objects</h2>
+
+  <div class="image-block">
+    <img src="characters-and-assets.png" alt="Imported character and jellyfish assets" />
+    <div class="caption">SpongeBob, Patrick, and jellyfish assets placed in the environment.</div>
+  </div>
+
+  <p>
+    I generated 3D models of SpongeBob, Patrick, and the jellyfish using the Tripo AI tool and then imported them into Unity.
+    The jellyfish are the objects the player can interact with, while SpongeBob and Patrick run in the field.
+  </p>
+
+  <p>
+    Using an AI helper in VSCode, I wrote simple scripts that make the characters and jellyfish float up and down constantly. No complex animation, just a small vertical move to keep things alive.
+  </p>
+</section>
+
+<section>
+  <h2>4) Interaction Design</h2>
+
+  <div class="grid">
+    <div>
+      <p>
+        The only real gameplay is catching jellyfish. When the player gets close, a message shows:
+        <strong>“Press E to catch the jellyfish.”</strong>
+        Pressing E triggers a tiny animation: the jellyfish scales down from 100% to 0%, disappears for five seconds, then grows back to 100% again. It looks like the jellyfish vanishes and reappears.
+      </p>
+
+      <p>
+        This mechanic is easy and lighthearted; it uses proximity checks, a UI prompt, and simple scaling to give the scene some interactivity.
+      </p>
+    </div>
+
+    <div class="image-block">
+      <img src="interaction.png" alt="Jellyfish interaction and UI prompt" />
+      <div class="caption">When the player gets close to a jellyfish, an on-screen prompt appears and the jellyfish can be caught by pressing E.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>5) Lighting, Environment, and Extras</h2>
+
+  <div class="image-block">
+    <img src="lighting.png" alt="Lighting and sky settings" />
+    <div class="caption">Adjusting lighting, sky, and color to create a bright Bikini Bottom-inspired atmosphere.</div>
+  </div>
+
+  <p>
+    I adjusted the lighting and sky settings to make the space feel closer to the visual world of SpongeBob.
+    I used a brighter blue sky, vibrant green terrain, and colorful flower-shaped background elements—these flowers were also generated with Tripo AI—to evoke the familiar cartoon style of Bikini Bottom.
+  </p>
+
+  <p>
+    I also tried to keep the shadows relatively soft so the scene would stay cheerful and stylized.
+    The overall goal was to create an environment that feels playful, bright, and slightly surreal, rather than realistic.
+  </p>
+</section>
+
+<section>
+  <h2>6) Final Experience</h2>
+
+  <div class="image-block">
+    <img src="final-scene.png" alt="Final scene screenshot" />
+    <div class="caption">Final first-person view of the Jellyfish Fields dream space.</div>
+  </div>
+
+  <p>
+    The final result is a small interactive dream space where the player can explore a stylized underwater field, encounter SpongeBob and Patrick, and catch floating jellyfish.
+  </p>
+
+  <p>
+    Through this process, I learned how to use Unity’s terrain system, import 3D assets, create simple scripted motion, and design a basic first-person interaction.
+  </p>
+</section>
+
+<footer>
+  <p>
+    Documentation by Ruby Li. Built with HTML/CSS and published as a public webpage for course submission.
+  </p>
+</footer>
+
+</body>
+</html>
