@@ -22,25 +22,27 @@
             <p>Drag word images from the bottom boxes onto the text above to complete the collage.</p>
         </div>
         
-        <!-- 主图片展示区域 -->
-        <div class="text-display">
-            <!-- Medea 主图片 -->
-            <div class="main-image-container medea">
-                <img src="https://p5-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/f194b5ae8bcc42c38824dc6cdf70d061~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=2026040706500240A950B7BD5E8D7120E3&amp;rrcfp=e75484ac&amp;x-expires=1776120603&amp;x-signature=nE%2F5Eew2m8j322cuQeY1A4cTEec%3D" alt="Medea Text Collage" class="main-image">
-                <!-- 这里是可拖拽区域，用户可以将词语图片拖放到这里 -->
-                <div class="drop-zone"></div>
+        <!-- Main Content Area with Sidebar Layout -->
+        <div class="main-content">
+            <!-- Left: Text Display Area -->
+            <div class="text-display">
+                <!-- Medea 主图片 -->
+                <div class="main-image-container medea">
+                    <img src="https://p5-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/f194b5ae8bcc42c38824dc6cdf70d061~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=2026040706500240A950B7BD5E8D7120E3&amp;rrcfp=e75484ac&amp;x-expires=1776120603&amp;x-signature=nE%2F5Eew2m8j322cuQeY1A4cTEec%3D" alt="Medea Text Collage" class="main-image">
+                    <!-- 这里是可拖拽区域，用户可以将词语图片拖放到这里 -->
+                    <div class="drop-zone"></div>
+                </div>
+                
+                <!-- Mulan 主图片 -->
+                <div class="main-image-container mulan" style="display: none;">
+                    <img src="https://p5-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/01053244a7b24679a2393e8a6516d67c~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260407065131915A6246614CC87F9BA7&amp;rrcfp=e75484ac&amp;x-expires=1776120693&amp;x-signature=W2Tmozw5l2MaGknDcb%2BPfT8F5qQ%3D" alt="Mulan Text Collage" class="main-image">
+                    <!-- 这里是可拖拽区域，用户可以将词语图片拖放到这里 -->
+                    <div class="drop-zone"></div>
+                </div>
             </div>
             
-            <!-- Mulan 主图片 -->
-            <div class="main-image-container mulan" style="display: none;">
-                <img src="https://p5-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/01053244a7b24679a2393e8a6516d67c~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260407065131915A6246614CC87F9BA7&amp;rrcfp=e75484ac&amp;x-expires=1776120693&amp;x-signature=W2Tmozw5l2MaGknDcb%2BPfT8F5qQ%3D" alt="Mulan Text Collage" class="main-image">
-                <!-- 这里是可拖拽区域，用户可以将词语图片拖放到这里 -->
-                <div class="drop-zone"></div>
-            </div>
-        </div>
-        
-        <!-- Word Boxes Area -->
-        <div class="word-cards">
+            <!-- Right: Word Boxes Sidebar -->
+            <div class="word-cards-sidebar">
             <!-- Gendered Pronouns Area -->
             <div class="word-category">
                 <div class="category-header">
@@ -88,6 +90,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         
         <!-- Reset Button -->

@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 "returning", "Crossing", "reaches", "put on", "runs", "knew", 
                 "tie", "hear", "slaughter", "goes out", "buy", "return", "hears", 
                 "hears", "run", "takes leave of", "buys", "calling", "tell", "see", 
-                "shines", "camps", "sit on", "posted", "saw", "male", "take place", 
+                "shines", "camps", "sit on", "posted", "saw", "take place", 
                 "comes home", "hears", "hears", "hears", "go out", "flying", "coming", 
                 "carries", "hears", "take off", "sharpens", "coming", "awards", 
                 "calling", "weaving", "leaves", "travels", "sees", "open", "hear", 
