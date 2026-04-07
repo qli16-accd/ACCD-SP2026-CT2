@@ -362,9 +362,25 @@ document.addEventListener('DOMContentLoaded', function() {
             element.style.top = `${newY}px`;
         }
         
-        function stopDraggingPlacedWord() {
+        function stopDraggingPlacedWord(e) {
             isDragging = false;
             element.style.zIndex = '20';
+            
+            // Check if dropped on a word container (to return the word)
+            const wordContainers = document.querySelectorAll('.word-container');
+            let isDroppedOnWordContainer = false;
+            
+            wordContainers.forEach(container => {
+                const rect = container.getBoundingClientRect();
+                if (e && e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom) {
+                    isDroppedOnWordContainer = true;
+                }
+            });
+            
+            if (isDroppedOnWordContainer) {
+                // Return the word to its original box
+                returnWordToOriginalBox(element, originalBox);
+            }
             
             // Remove global event listeners
             document.removeEventListener('mousemove', dragPlacedWord);
@@ -398,6 +414,36 @@ document.addEventListener('DOMContentLoaded', function() {
         wordBox.style.left = '';
         wordBox.style.top = '';
         wordBox.style.zIndex = '';
+    }
+
+    // Return word to its original box
+    function returnWordToOriginalBox(wordElement, originalBox) {
+        if (!originalBox) return;
+
+        // Remove the word element from its current parent
+        if (wordElement.parentNode) {
+            wordElement.parentNode.removeChild(wordElement);
+        }
+
+        // Reset the word element's styles
+        wordElement.style.position = '';
+        wordElement.style.left = '';
+        wordElement.style.top = '';
+        wordElement.style.zIndex = '';
+        wordElement.style.width = '';
+        wordElement.style.height = '';
+        wordElement.classList.remove('selected');
+
+        // Add the word element back to its original box
+        originalBox.appendChild(wordElement);
+
+        // Update the current state
+        if (currentState.selectedWordBox === wordElement) {
+            currentState.selectedWordBox = null;
+        }
+
+        // Update the word list
+        updateWordList();
     }
     
     // Switch text display
