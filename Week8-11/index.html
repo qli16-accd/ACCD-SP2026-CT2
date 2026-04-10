@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Krusty Krab Burger Game — Unity + Arduino Documentation</title>
+  <style>
+    :root{
+      --bg:#fafafa;
+      --card:#ffffff;
+      --text:#222;
+      --muted:#666;
+      --line:#e6e6e6;
+    }
+
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+      line-height:1.7;
+      color:var(--text);
+      background:var(--bg);
+    }
+
+    header{
+      padding:3.5rem 10vw 2.5rem;
+      background:var(--card);
+      border-bottom:1px solid var(--line);
+    }
+
+    h1{
+      font-size:2.3rem;
+      margin:0 0 .6rem 0;
+      letter-spacing:-.02em;
+    }
+
+    .sub{
+      max-width:860px;
+      color:var(--muted);
+      margin:0;
+    }
+
+    section{
+      padding:2.5rem 10vw;
+    }
+
+    h2{
+      font-size:1.5rem;
+      margin:0 0 1rem 0;
+    }
+
+    p{
+      max-width:860px;
+      margin:.8rem 0;
+    }
+
+    ul{
+      max-width:860px;
+      margin:.8rem 0 0 1.1rem;
+    }
+
+    .image-block{
+      margin:1.2rem 0 1.8rem 0;
+    }
+
+    .image-block img{
+      width:100%;
+      max-width:980px;
+      border-radius:10px;
+      display:block;
+      border:1px solid var(--line);
+      background:#fff;
+    }
+
+    .caption{
+      font-size:.9rem;
+      color:var(--muted);
+      margin-top:.5rem;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:1.2rem;
+    }
+
+    @media (min-width: 980px){
+      .grid{
+        grid-template-columns:1fr 1fr;
+      }
+    }
+
+    .video-embed{
+      position:relative;
+      width:100%;
+      padding-bottom:56.25%;
+      height:0;
+      overflow:hidden;
+      border-radius:10px;
+      border:1px solid var(--line);
+      background:#fff;
+    }
+
+    .video-embed iframe{
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      border:0;
+    }
+
+    footer{
+      padding:2.5rem 10vw;
+      font-size:.9rem;
+      color:var(--muted);
+      border-top:1px solid var(--line);
+      background:var(--card);
+    }
+
+    code{
+      background:#f1f1f1;
+      padding:.1rem .3rem;
+      border-radius:6px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Krusty Krab Burger Game — Unity + Arduino Documentation</h1>
+  <p>Ruby Li, qli16@inside.artcenter.edu</p>
+  <p class="sub">
+    This project is an interactive burger-making game inspired by SpongeBob SquarePants. 
+    Players assemble burgers based on customer orders using physical buttons connected to an ESP32 controller.
+  </p>
+</header>
+
+<section>
+  <h2>Gameplay Videos</h2>
+
+  <div class="image-block">
+    <div class="video-embed">
+      <iframe src="https://drive.google.com/file/d/1Y2H7l9C5KOt711q4pz1y4T1ukz7aEMKh/preview" allow="autoplay"></iframe>
+    </div>
+    <div class="caption">Playtesting video showing players using the physical controller.</div>
+  </div>
+
+  <div class="image-block">
+    <div class="video-embed">
+      <iframe src="https://drive.google.com/file/d/1Ac1_al13wi-TLcqfwkae8GMT3orrCycX/preview" allow="autoplay"></iframe>
+    </div>
+    <div class="caption">Screen recording of the final gameplay experience.</div>
+  </div>
+</section>
+
+<section>
+  <h2>1) Idea and Inspiration</h2>
+
+  <p>
+    This project was inspired by SpongeBob SquarePants, especially the burger-making scenes in the Krusty Krab.
+    I wanted to recreate the feeling of quickly assembling burgers based on customer orders in a playful and interactive way.
+  </p>
+</section>
+
+<section>
+  <h2>2) Drawing the Background in Procreate</h2>
+
+  <div class="image-block">
+    <img src="procreate-background.png" alt="Procreate background drawing" />
+    <div class="caption">Background environment drawn in Procreate on iPad.</div>
+  </div>
+
+  <p>
+    I first designed the kitchen background in Procreate.
+    I wanted the scene to feel like the Krusty Krab while still keeping my own hand-drawn pencil texture.
+  </p>
+</section>
+
+<section>
+  <h2>3) Initial UI Layout in Unity</h2>
+
+  <div class="image-block">
+    <img src="bw-ui.png" alt="Initial black and white UI in Unity" />
+    <div class="caption">Initial black and white UI layout inside Unity.</div>
+  </div>
+
+  <p>
+    After importing the assets into Unity, I first built a simple grayscale version of the interface.
+    At this stage, I focused only on layout, including the background, customer order area, and burger stacking area.
+  </p>
+
+  <p>
+    This helped me test the basic game structure before refining the visuals.
+  </p>
+</section>
+
+<section>
+  <h2>4) Colored Interface and Stacking System</h2>
+
+  <div class="image-block">
+    <img src="color-ui.png" alt="Colored UI with burger stacking system" />
+    <div class="caption">Refined colored UI with burger stacking and adjustable ingredient heights.</div>
+  </div>
+
+  <p>
+    After the layout was working, I added color and adjusted the interface to better match the visual style of SpongeBob.
+  </p>
+
+  <p>
+    A major part of the system was the burger stacking logic. Since different ingredients have different thicknesses, I created adjustable height values in Unity’s Inspector so that each layer could be tuned visually in real time.
+  </p>
+
+  <p>
+    This made the burger stack feel more natural and helped prevent the ingredients from floating too far apart.
+  </p>
+</section>
+
+<section>
+  <h2>5) Arduino Controller Debugging</h2>
+
+  <div class="image-block">
+    <img src="arduino-debug.png" alt="Arduino debugging and serial monitor" />
+    <div class="caption">ESP32 button controller debugging and serial communication testing.</div>
+  </div>
+
+  <p>
+    I connected multiple physical buttons to an ESP32 board.
+    Each button was mapped to one burger ingredient, and another button was used to check the final burger.
+  </p>
+
+  <ul>
+    <li>Bottom Bread</li>
+    <li>Meat</li>
+    <li>Onion</li>
+    <li>Lettuce</li>
+    <li>Tomato</li>
+    <li>Cheese</li>
+    <li>Top Bread</li>
+    <li>Check Burger</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2>6) Gameplay Logic</h2>
+
+  <p>
+    The gameplay loop is simple:
+  </p>
+
+  <ul>
+    <li>A customer appears with a burger order</li>
+    <li>The player presses physical buttons to add ingredients</li>
+    <li>The burger builds layer by layer in the center of the screen</li>
+    <li>The player presses the check button</li>
+    <li>The game compares the player’s burger with the target order</li>
+  </ul>
+
+  <p>
+    If the order is correct, a “Good Job” image is shown.
+    If the order is wrong, a “Bad Job” image appears.
+    The result is also printed in the Unity Console for debugging and testing.
+  </p>
+
+  <p>
+    The three burger recipes used in the game are:
+  </p>
+
+  <ul>
+    <li>Burger 1: Bottom Bread, Meat, Onion, Lettuce, Tomato, Cheese, Top Bread</li>
+    <li>Burger 2: Bottom Bread, Meat, Lettuce, Tomato, Top Bread</li>
+    <li>Burger 3: Bottom Bread, Meat, Cheese, Top Bread</li>
+  </ul>
+</section>
+
+<section>
+  <h2>7) Final Result</h2>
+
+  <div class="image-block">
+    <img src="final-gameplay.png" alt="Final game screenshot" />
+    <div class="caption">Final gameplay interface combining Unity UI, burger logic, and ESP32 control.</div>
+  </div>
+
+  <p>
+    The final result is a cooking game that combines digital gameplay with physical interaction.
+    Compared to keyboard controls, the button interface makes the gameplay feel more like a real action sequence.
+  </p>
+
+  <p>
+    Through this project, I explored visual design, UI building, Unity scripting, serial communication, and the relationship between hardware and software in game design.
+  </p>
+</section>
+
+
+<footer>
+  <p>
+    Documentation by Ruby Li. Built with HTML/CSS and published as a public webpage for course submission.
+  </p>
+</footer>
+
+</body>
+</html>
