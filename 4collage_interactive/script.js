@@ -3,6 +3,9 @@
  * Implements word image dragging, dropping, resizing and selection functionality
  */
 
+// Keep shared state outside DOMContentLoaded so Step 2/3 helper functions can read it.
+let currentState;
+
 document.addEventListener('DOMContentLoaded', function() {
     // Word data
     const wordData = {
@@ -44,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     // Current state
-    let currentState = {
+    currentState = {
         activeText: 'medea',
         selectedWordBox: null,
         draggedWord: null,
@@ -59,8 +62,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 pronouns: [],
                 verbs: []
             }
+        },
+        selectedImage: null,
+        selectedImagePlatform: null,
+        // Store saved reconstructions for each text separately
+        savedReconstructions: {
+            medea: null,
+            mulan: null
         }
     };
+    window.currentState = currentState;
     
     // DOM elements
     const selectorBtns = document.querySelectorAll('.selector-btn');
@@ -92,6 +103,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Bind event listeners
         bindEventListeners();
+        
+        // Initialize reconstruction selector
+        initReconstructionSelector();
         
         // Update remaining counts display
         updateRemainingCounts();
@@ -164,13 +178,8 @@ document.addEventListener('DOMContentLoaded', function() {
         wordBox.classList.add('selected');
         currentState.selectedWordBox = wordBox;
         
-        // Update size slider values to match selected word box
-        const width = parseInt(wordBox.style.width);
-        const height = parseInt(wordBox.style.height);
-        widthSlider.value = width;
-        heightSlider.value = height;
-        widthValue.textContent = width;
-        heightValue.textContent = height;
+        // Keep optional size controls in sync if they exist in the page.
+        syncSizeControls(wordBox);
     }
     
     // Start dragging
@@ -275,12 +284,10 @@ document.addEventListener('DOMContentLoaded', function() {
         placedWord.style.fontFamily = fontSettings.family;
         placedWord.style.fontSize = fontSettings.size;
 
-        // Check if placing on Mulan text - if so, reduce size by 50%
-        const isMulanText = parentZone.parentElement.classList.contains('mulan');
-        if (isMulanText) {
-            placedWord.style.transform = 'scale(0.5)';
-            placedWord.style.transformOrigin = 'center';
+        if (parentZone.parentElement.classList.contains('mulan')) {
+            placedWord.classList.add('mulan-placed-word');
         }
+
         placedWord.style.color = fontSettings.color;
         placedWord.style.backgroundColor = fontSettings.backgroundColor;
         placedWord.style.padding = fontSettings.padding;
@@ -309,6 +316,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Make placed word interactive (draggable and selectable)
     function makePlacedWordInteractive(element, originalBox) {
         let isDragging = false;
+        let dragOffset = { x: 0, y: 0 };
         let startX, startY, initialX, initialY;
         
         // Click event for selection
@@ -399,9 +407,22 @@ document.addEventListener('DOMContentLoaded', function() {
         wordElement.classList.add('selected');
         currentState.selectedWordBox = wordElement;
         
-        // Update size slider values to match selected word box
-        const width = parseInt(wordElement.style.width);
-        const height = parseInt(wordElement.style.height);
+        // Keep optional size controls in sync if they exist in the page.
+        syncSizeControls(wordElement);
+    }
+
+    function syncSizeControls(element) {
+        if (
+            typeof widthSlider === 'undefined' ||
+            typeof heightSlider === 'undefined' ||
+            typeof widthValue === 'undefined' ||
+            typeof heightValue === 'undefined'
+        ) {
+            return;
+        }
+        
+        const width = parseInt(element.style.width, 10) || element.offsetWidth || 0;
+        const height = parseInt(element.style.height, 10) || element.offsetHeight || 0;
         widthSlider.value = width;
         heightSlider.value = height;
         widthValue.textContent = width;
@@ -495,6 +516,7 @@ document.addEventListener('DOMContentLoaded', function() {
             targetOriginalText.style.display = 'block';
         }
     }
+    window.switchOriginalText = switchOriginalText;
     
     // Switch word source for specific category
     function switchWordSource(sourceType, category) {
@@ -593,8 +615,26 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
+        // Step navigation buttons
+        const navBtns = document.querySelectorAll('.nav-btn');
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const step = this.getAttribute('data-step');
+                const stepElement = document.getElementById(`step-${step}`);
+                if (stepElement) {
+                    stepElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
 
-        
+        // Complete button - captures current collage state for Step 3
+        const completeBtn = document.querySelector('.complete-btn');
+        if (completeBtn) {
+            completeBtn.addEventListener('click', function() {
+                captureCollageForStep3();
+            });
+        }
+
         // Reset button
         resetBtn.addEventListener('click', resetAll);
         
@@ -637,6 +677,7 @@ function initAIGallery() {
     const previewImage = document.querySelector('.preview-image');
     const previewPlaceholder = document.querySelector('.preview-placeholder');
     const selectedPlatformName = document.querySelector('.selected-platform-name');
+    const aiImageDisplay = document.getElementById('ai-image-display');
     
     thumbnailItems.forEach(thumbnail => {
         thumbnail.addEventListener('click', function(e) {
@@ -662,19 +703,221 @@ function initAIGallery() {
             
             // Update the selected platform display
             selectedPlatformName.textContent = platform;
+            
+            // Update comparison section with selected image
+            if (aiImageDisplay) {
+                aiImageDisplay.innerHTML = '';
+                const comparisonImg = document.createElement('img');
+                comparisonImg.src = imagePath;
+                comparisonImg.alt = `${platform} Interpretation`;
+                aiImageDisplay.appendChild(comparisonImg);
+            }
+            
+            // Store in global state
+            currentState.selectedImage = imagePath;
+            currentState.selectedImagePlatform = platform;
         });
     });
 }
 
 // Initialize original text switching
 function initOriginalTextSwitching() {
-    const selectorBtns = document.querySelectorAll('.selector-btn');
     // Add event listeners to Step 3 original text selector buttons
     const originalSelectorBtns = document.querySelectorAll('.selector-btn[data-target="original"]');
     originalSelectorBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const textType = btn.getAttribute('data-text');
-            switchOriginalText(textType);
+            if (typeof window.switchOriginalText === 'function') {
+                window.switchOriginalText(textType);
+            }
         });
     });
+}
+
+/**
+ * Capture the current collage state for a specific text
+ * This function:
+ * 1. Finds the active collage container
+ * 2. Clones it (including image and placed words)
+ * 3. Saves it to state.savedReconstructions[textType]
+ * 4. Updates Step 3 display
+ */
+function captureCollageForStep3() {
+    if (!currentState) return;
+    
+    // Get the currently active text
+    const activeText = currentState.activeText;
+    
+    // Find the active collage container
+    const activeContainer = document.querySelector(`.main-image-container.${activeText}`);
+    if (!activeContainer) {
+        console.error('No active collage container found');
+        return;
+    }
+    
+    const sourceRect = activeContainer.getBoundingClientRect();
+    const sourceImage = activeContainer.querySelector('.main-image');
+    const imageRect = sourceImage ? sourceImage.getBoundingClientRect() : sourceRect;
+    const originalWidth = imageRect.width || sourceRect.width;
+    const originalHeight = imageRect.height || sourceRect.height;
+    const imageOffsetX = imageRect.left - sourceRect.left;
+    const imageOffsetY = imageRect.top - sourceRect.top;
+    
+    // Clone the entire active container (image + drop-zone + all placed words).
+    // Important fix: placed words live inside .drop-zone, so the clone must keep it.
+    const collageClone = activeContainer.cloneNode(true);
+    collageClone.classList.add('step3-collage-clone');
+    collageClone.dataset.originalWidth = originalWidth;
+    collageClone.dataset.originalHeight = originalHeight;
+    collageClone.style.width = `${originalWidth}px`;
+    collageClone.style.height = `${originalHeight}px`;
+    collageClone.style.maxWidth = 'none';
+    collageClone.style.maxHeight = 'none';
+    collageClone.style.display = 'block';
+    
+    const clonedImage = collageClone.querySelector('.main-image');
+    if (clonedImage) {
+        clonedImage.style.width = `${originalWidth}px`;
+        clonedImage.style.height = `${originalHeight}px`;
+        clonedImage.style.maxWidth = 'none';
+        clonedImage.style.maxHeight = 'none';
+        clonedImage.style.margin = '0';
+    }
+    
+    const clonedDropZone = collageClone.querySelector('.drop-zone');
+    if (clonedDropZone) {
+        clonedDropZone.classList.remove('drag-over');
+        clonedDropZone.style.pointerEvents = 'none';
+        clonedDropZone.style.width = `${originalWidth}px`;
+        clonedDropZone.style.height = `${originalHeight}px`;
+    }
+    
+    collageClone.querySelectorAll('.placed-word').forEach(word => {
+        word.classList.remove('selected', 'dragging');
+        word.style.pointerEvents = 'none';
+        // The Step 1 drop-zone can be wider than the image; save word positions against the image itself.
+        const wordLeft = parseFloat(word.style.left);
+        const wordTop = parseFloat(word.style.top);
+        const savedLeft = (Number.isFinite(wordLeft) ? wordLeft : 0) - imageOffsetX;
+        const savedTop = (Number.isFinite(wordTop) ? wordTop : 0) - imageOffsetY;
+        word.style.left = `${savedLeft}px`;
+        word.style.top = `${savedTop}px`;
+    });
+    
+    // Save the cloned element to state
+    currentState.savedReconstructions[activeText] = collageClone;
+    setReconstructionSelectorActive(activeText);
+    
+    // Update the Step 3 display to show this reconstruction
+    updateReconstructionDisplay(activeText);
+    
+    // Show success feedback
+    showCompleteFeedback(activeText);
+}
+
+/**
+ * Update the reconstruction display in Step 3
+ * This shows the saved collage for the specified text
+ */
+function updateReconstructionDisplay(textType) {
+    const reconstructionDisplay = document.getElementById('reconstruction-display');
+    if (!reconstructionDisplay) return;
+    if (!currentState) return;
+    
+    // Get the saved reconstruction for this text
+    const savedCollage = currentState.savedReconstructions[textType];
+    
+    if (!savedCollage) {
+        reconstructionDisplay.innerHTML = '<div class="comparison-placeholder">No reconstruction saved for this text. Click Complete to save.</div>';
+        return;
+    }
+    
+    // Clone the saved collage for display
+    const displayClone = savedCollage.cloneNode(true);
+    displayClone.classList.add('step3-collage-clone');
+    displayClone.style.transform = '';
+    
+    const previewFrame = document.createElement('div');
+    previewFrame.className = 'reconstruction-preview-frame';
+    previewFrame.appendChild(displayClone);
+    
+    // Clear and update the display before measuring available space
+    reconstructionDisplay.innerHTML = '';
+    reconstructionDisplay.appendChild(previewFrame);
+    
+    fitReconstructionClone(previewFrame, displayClone);
+}
+
+/**
+ * Scale the cloned collage as one unit so the base image and placed words stay aligned.
+ */
+function fitReconstructionClone(previewFrame, displayClone) {
+    const reconstructionDisplay = document.getElementById('reconstruction-display');
+    if (!reconstructionDisplay) return;
+    
+    const originalWidth = parseFloat(displayClone.dataset.originalWidth) || displayClone.offsetWidth;
+    const originalHeight = parseFloat(displayClone.dataset.originalHeight) || displayClone.offsetHeight;
+    if (!originalWidth || !originalHeight) return;
+    
+    const availableWidth = Math.max(1, reconstructionDisplay.clientWidth - 40);
+    const availableHeight = Math.max(1, reconstructionDisplay.clientHeight - 40);
+    const scale = Math.min(1, availableWidth / originalWidth, availableHeight / originalHeight);
+    
+    displayClone.style.transformOrigin = 'top left';
+    displayClone.style.transform = `scale(${scale})`;
+    previewFrame.style.width = `${originalWidth * scale}px`;
+    previewFrame.style.height = `${originalHeight * scale}px`;
+}
+
+function setReconstructionSelectorActive(textType) {
+    document.querySelectorAll('.reconstruction-selector-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-text') === textType);
+    });
+}
+
+/**
+ * Initialize reconstruction selector in Step 3
+ * Allows user to switch between medea and mulan reconstructions
+ */
+function initReconstructionSelector() {
+    const reconstructionSelectorBtns = document.querySelectorAll('.reconstruction-selector-btn');
+    reconstructionSelectorBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const textType = this.getAttribute('data-text');
+            
+            // Update active state of buttons
+            reconstructionSelectorBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Update the display
+            updateReconstructionDisplay(textType);
+        });
+    });
+}
+
+/**
+ * Show feedback when Complete button is clicked
+ */
+function showCompleteFeedback(textType) {
+    const reconstructionDisplay = document.getElementById('reconstruction-display');
+    if (!reconstructionDisplay) return;
+    
+    // Add temporary success message
+    const feedbackMsg = document.createElement('div');
+    feedbackMsg.className = 'collage-success-message';
+    feedbackMsg.textContent = `✓ ${textType.charAt(0).toUpperCase() + textType.slice(1)} reconstruction saved!`;
+    feedbackMsg.style.textAlign = 'center';
+    feedbackMsg.style.fontSize = '0.9rem';
+    feedbackMsg.style.color = '#d4a76a';
+    feedbackMsg.style.fontStyle = 'italic';
+    feedbackMsg.style.marginTop = '10px';
+    
+    reconstructionDisplay.appendChild(feedbackMsg);
+    
+    // Auto-remove after 2 seconds
+    setTimeout(() => {
+        if (feedbackMsg.parentNode) {
+            feedbackMsg.remove();
+        }
+    }, 2000);
 }

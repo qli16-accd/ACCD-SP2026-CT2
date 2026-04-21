@@ -6,10 +6,26 @@
 </head>
 <body>
     <div class="container">
+        <!-- Step Navigation -->
+        <nav class="step-navigation">
+            <button class="nav-btn" data-step="1">[ Step 1 ]</button>
+            <button class="nav-btn" data-step="2">[ Step 2 ]</button>
+            <button class="nav-btn" data-step="3">[ Step 3 ]</button>
+        </nav>
+        
         <!-- Title Section -->
         <div class="title-section">
             <h1>Reconstruct the Text</h1>
             <h2 class="subtitle">Fill in the missing words to create your own interpretation, then select an AI-generated image that best captures your unique meaning.</h2>
+            
+            <!-- Contextual Introduction -->
+            <div class="contextual-introduction">
+                <p>This project brings together two texts: <strong>Medea</strong> and <strong>The Ballad of Mulan</strong>.</p>
+                
+                <p>Both center on women in relation to war, yet from very different positions. Medea expresses a desire to enter the battlefield as a rejection of the constraints placed on women, while Mulan takes her father's place in war, embodying duty and sacrifice.</p>
+                
+                <p>By fragmenting and reconstructing these texts, the project explores how meaning, gender, and narrative shift across cultural contexts and interpretations.</p>
+            </div>
         </div>
         
         <!-- Step 1: Text Reconstruction -->
@@ -32,19 +48,19 @@
         <div class="main-content">
             <!-- Left: Text Display Area -->
             <div class="text-display">
-                <!-- Medea 主图片 -->
+                <!-- Medea 主图�?-->
                 <div class="main-image-container medea">
                     <!-- Replace with local image path -->
                     <img src="./Medea.jpg" alt="Medea Text Collage" class="main-image">
-                    <!-- 这里是可拖拽区域，用户可以将词语图片拖放到这里 -->
+                    <!-- 这里是可拖拽区域，用户可以将词语图片拖放到这�?-->
                     <div class="drop-zone"></div>
                 </div>
                 
-                <!-- Mulan 主图片 -->
+                <!-- Mulan 主图�?-->
                 <div class="main-image-container mulan" style="display: none;">
                     <!-- Replace with local image path -->
                     <img src="./Mulan.jpg" alt="Mulan Text Collage" class="main-image">
-                    <!-- 这里是可拖拽区域，用户可以将词语图片拖放到这里 -->
+                    <!-- 这里是可拖拽区域，用户可以将词语图片拖放到这�?-->
                     <div class="drop-zone"></div>
                 </div>
             </div>
@@ -99,11 +115,12 @@
                 </div>
             </div>
         </div>
-        
-        <!-- Reset Button (Moved to Step 1) -->
-        <div class="reset-container">
-            <button class="reset-btn">Reset All</button>
         </div>
+        
+        <!-- Step 1 Action Buttons -->
+        <div class="step-1-buttons">
+            <button class="reset-btn">Reset All</button>
+            <button class="complete-btn">Complete</button>
         </div>
         </div>
         
@@ -239,29 +256,59 @@
         </div>
         </div>
         
-        <!-- Step 3: Original Text -->
+        <!-- Step 3: Comparison & Reflection -->
         <div class="step-section" id="step-3">
             <div class="step-header">
                 <div class="step-indicator">Step 3</div>
-                <h3 class="step-title">Return to the Original Text and Reflect</h3>
-                <p class="step-description">Compare your reconstruction with the original text and consider how meaning has shifted through your choices and the AI interpretations.</p>
+                <h3 class="step-title">Reflection & Comparison Stage</h3>
+                <p class="step-description">Compare your reconstruction, the AI interpretation, and the original text to explore how meaning has shifted across these three perspectives.</p>
             </div>
             
-            <div class="original-text-section">
-                <div class="text-card">
-                    <h4 class="original-title">Original Text</h4>
-                    
-                    <!-- Text Selection Controls -->
-                    <div class="original-text-controls">
-                        <div class="selector-buttons">
-                            <button class="selector-btn active" data-text="medea" data-target="original">Medea</button>
-                            <button class="selector-btn" data-text="mulan" data-target="original">The Ballad of Mulan</button>
+            <!-- Comparison Layout -->
+            <div class="comparison-grid">
+                <!-- Your Reconstruction -->
+                <section class="comparison-item">
+                    <div class="comparison-header">
+                        <h4 class="comparison-title">Your Reconstruction</h4>
+                        <!-- Reconstruction Selector -->
+                        <div class="reconstruction-selector">
+                            <div class="selector-buttons">
+                                <button class="reconstruction-selector-btn active" data-text="medea">Medea</button>
+                                <button class="reconstruction-selector-btn" data-text="mulan">The Ballad of Mulan</button>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="original-content">
-                        <!-- Medea Original Text -->
-                        <div class="original-text medea-text">
+                    <div class="reconstruction-display" id="reconstruction-display">
+                        <div class="comparison-placeholder">Your reconstructed text will appear here</div>
+                    </div>
+                </section>
+                
+                <!-- Selected AI Image -->
+                <section class="comparison-item">
+                    <div class="comparison-header">
+                        <h4 class="comparison-title">Selected AI Image</h4>
+                    </div>
+                    <div class="ai-image-display" id="ai-image-display">
+                        <div class="comparison-placeholder">Your selected AI image will appear here</div>
+                    </div>
+                </section>
+                
+                <!-- Original Text -->
+                <section class="comparison-item">
+                    <div class="comparison-header">
+                        <h4 class="comparison-title">Original Text</h4>
+                        <!-- Text Selection Controls -->
+                        <div class="original-text-controls">
+                            <div class="selector-buttons">
+                                <button class="selector-btn active" data-text="medea" data-target="original">Medea</button>
+                                <button class="selector-btn" data-text="mulan" data-target="original">The Ballad of Mulan</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="original-text-display" id="original-text-display">
+                        <div class="original-content">
+                            <!-- Medea Original Text -->
+                            <div class="original-text medea-text">
                             <p>"Of all creatures that have life and reason we women are the most unhappy species.</p>
                             <p>First we must buy a husband at a great price, and then accept him as the master of our bodies.</p>
                             <p>This is an even greater evil than the first.</p>
@@ -277,7 +324,7 @@
                         <div class="original-text mulan-text" style="display: none;">
                             <p>The Ballad of Mulan</p>
                             <p>(Anonymous, Northern Dynasties, c. 5th–6th century)</p>
-                            <p>Click, click, and again click, click—<br>
+                            <p>Click, click, and again click, click——>
                             Mulan sits at the door weaving.<br>
                             You hear not the shuttle's sound,<br>
                             Only the girl's sighs.</p>
@@ -338,18 +385,21 @@
                             <p>The male hare runs with bounding steps;<br>
                             The female hare's eyes are slightly smaller.<br>
                             When the two run side by side,<br>
-                            Who can tell the female from the male?"</p>
+                            Who can tell the female from the male?</p>
                         </div>
                     </div>
-                </div>
+                    </div>
+                </section>
             </div>
-        </div>
-        </div>
-        
-        <!-- Reflective Conclusion -->
-        <div class="conclusion-section">
-            <div class="reflection-text">
-                <p>How did your word choices transform the original meaning? And how did the AI interpretations further shape or shift these new meanings?</p>
+            
+            <!-- Comparison Divider -->
+            <div class="comparison-divider"></div>
+            
+            <!-- Reflective Conclusion -->
+            <div class="conclusion-section">
+                <div class="reflection-text">
+                    <p>How did your word choices transform the original meaning? And how did the AI interpretations further shape or shift these new meanings?</p>
+                </div>
             </div>
         </div>
         </div>
