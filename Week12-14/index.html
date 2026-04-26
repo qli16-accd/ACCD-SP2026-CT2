@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creative Technology 2 Documentation</title>
+  <style>
+    :root {
+      --bg: #f7f7f4;
+      --surface: #ffffff;
+      --ink: #151515;
+      --muted: #6a6a63;
+      --line: #deded7;
+      --accent: #e84f2a;
+      --deep: #1f3433;
+      --black: #050505;
+      --soft: #eeeee8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    img,
+    video,
+    iframe {
+      display: block;
+      width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(21, 21, 21, 0.08);
+      background: rgba(247, 247, 244, 0.9);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      min-height: 72px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .brand-mark {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      padding: 8px 0;
+    }
+
+    .hero {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 78px 0 64px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(340px, 420px);
+      gap: 64px;
+      align-items: end;
+    }
+
+    .hero > div {
+      min-width: 0;
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 22px;
+      max-width: 760px;
+      font-size: clamp(48px, 7vw, 88px);
+      line-height: 1.06;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+
+    .hero-copy {
+      max-width: 640px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .meta-panel {
+      border-left: 1px solid var(--line);
+      padding-left: 28px;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .meta-row strong {
+      color: var(--ink);
+      font-weight: 650;
+    }
+
+    main {
+      overflow: hidden;
+    }
+
+    .section {
+      padding: 78px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section.dark {
+      background: var(--black);
+      color: #f5f1e8;
+      border-top: 0;
+    }
+
+    .section.dark .section-kicker,
+    .section.dark .section-copy,
+    .section.dark .caption,
+    .section.dark .process-list {
+      color: rgba(245, 241, 232, 0.72);
+    }
+
+    .wrap {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 42px;
+      margin-bottom: 36px;
+    }
+
+    .section-kicker {
+      color: var(--muted);
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+    }
+
+    h2 {
+      margin-bottom: 16px;
+      font-size: clamp(30px, 4.8vw, 58px);
+      line-height: 1.08;
+      font-weight: 720;
+      letter-spacing: 0;
+    }
+
+    .section-copy {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .projection-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+      gap: 44px;
+      align-items: center;
+    }
+
+    .media-block {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .media-block img {
+      aspect-ratio: 2541 / 1518;
+      object-fit: cover;
+    }
+
+    .caption {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .video-frame {
+      overflow: hidden;
+      border: 1px solid rgba(245, 241, 232, 0.24);
+      background: #0e1616;
+      aspect-ratio: 9 / 16;
+      max-width: 360px;
+    }
+
+    .video-frame iframe {
+      height: 100%;
+      border: 0;
+    }
+
+    .process-list {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px;
+      background: rgba(245, 241, 232, 0.18);
+      color: rgba(245, 241, 232, 0.75);
+      margin-top: 34px;
+    }
+
+    .process-item {
+      background: var(--black);
+      padding: 28px;
+      min-height: 180px;
+    }
+
+    .process-item span {
+      display: block;
+      margin-bottom: 34px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .process-item h3 {
+      margin-bottom: 10px;
+      color: #f5f1e8;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .setup-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 34px;
+    }
+
+    .setup-image {
+      overflow: hidden;
+      border: 1px solid rgba(245, 241, 232, 0.18);
+      background: #111;
+    }
+
+    .setup-image img {
+      aspect-ratio: 16 / 9;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery-intro {
+      display: block;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .gallery-intro h2,
+    .gallery-intro .section-kicker {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .gallery-note {
+      max-width: 430px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .variant {
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .variant-visual {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+      background:
+        linear-gradient(135deg, rgba(232, 79, 42, 0.16), transparent 42%),
+        linear-gradient(315deg, rgba(31, 52, 51, 0.16), transparent 44%),
+        var(--soft);
+    }
+
+    .variant-visual img,
+    .variant-visual video {
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .variant-visual.fit-contain {
+      background: #000;
+    }
+
+    .variant-visual.fit-contain img,
+    .variant-visual.fit-contain video {
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .variant-visual::after {
+      content: attr(data-label);
+      position: absolute;
+      inset: auto 14px 12px;
+      color: rgba(21, 21, 21, 0.52);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    .variant img[src=""] {
+      display: none;
+    }
+
+    .variant figcaption {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin: 0;
+      padding: 12px 13px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+    }
+
+    .variant figcaption strong {
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    .reflection {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 34px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .reflection strong {
+      color: var(--ink);
+    }
+
+    .process-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 38px;
+    }
+
+    .process-shot {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(232, 79, 42, 0.12), transparent 44%),
+        var(--soft);
+    }
+
+    .process-shot img {
+      aspect-ratio: 16 / 9;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .process-shot img[src=""] {
+      display: none;
+    }
+
+    footer {
+      padding: 34px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 860px) {
+      .nav {
+        width: min(100% - 28px, 1180px);
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero,
+      .projection-grid,
+      .section-heading,
+      .reflection {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        width: min(100% - 28px, 1180px);
+        padding: 56px 0 46px;
+      }
+
+      .meta-panel {
+        border-left: 0;
+        padding-left: 0;
+      }
+
+      .video-frame {
+        max-width: 520px;
+      }
+
+      .wrap {
+        width: min(100% - 28px, 1180px);
+      }
+
+      .section {
+        padding: 56px 0;
+      }
+
+      .section-heading {
+        gap: 12px;
+      }
+
+      .process-list,
+      .setup-grid,
+      .process-gallery,
+      .gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .gallery-intro {
+        display: block;
+      }
+    }
+
+    @media (max-width: 520px) {
+      h1 {
+        font-size: 46px;
+      }
+
+      .process-list,
+      .setup-grid,
+      .process-gallery,
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="#top">
+        <span class="brand-mark"></span>
+        <span>Creative Technology 2</span>
+      </a>
+      <div class="nav-links">
+        <a href="#projection">Projection</a>
+        <a href="#gallery">20 Variations</a>
+        <a href="#reflection">Documentation</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Spring 2026 / TouchDesigner / Projection Mapping</p>
+        <h1>Digital materiality Documentation</h1>
+        <p class="hero-copy">
+          A documentation page for a projection mapping experiment and a gallery of twenty TouchDesigner variations. The project explores how digital images can move from screen-based artifacts into layered physical space.
+        </p>
+      </div>
+      <aside class="meta-panel" aria-label="Project metadata">
+        <div class="meta-row">
+          <span>Course</span>
+          <strong>Creative Technology 2</strong>
+        </div>
+        <div class="meta-row">
+          <span>Medium</span>
+          <strong>Projection, image, video</strong>
+        </div>
+        <div class="meta-row">
+          <span>Tools</span>
+          <strong>TouchDesigner, projector</strong>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="projection">
+      <div class="wrap">
+        <div class="section-heading">
+          <div class="section-kicker">Projection</div>
+          <div>
+            <h2>Mapping digital texture onto a physical surface.</h2>
+            <p class="section-copy">
+              For the projection part of the project, I used TouchDesigner&apos;s Kantan Mapper to project separate video textures onto different planes in the real world. This allowed me to adjust the perspective, position, and scale of each mapped image so the projection could connect multiple physical surfaces.
+            </p>
+          </div>
+        </div>
+
+        <div class="projection-grid">
+          <div>
+            <figure class="media-block">
+              <img src="projection1.png" alt="Projection mapping documentation image">
+            </figure>
+          </div>
+
+          <div>
+            <div class="video-frame">
+              <iframe
+                src="https://drive.google.com/file/d/14hCj4po0tunM5bbSP1QPLVheGaT7H46S/preview"
+                allow="autoplay; fullscreen"
+                allowfullscreen
+                title="Projection mapping video documentation">
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark">
+      <div class="wrap">
+        <div class="section-heading">
+          <div class="section-kicker">Process</div>
+          <div>
+            <h2>From procedural image to spatial experience.</h2>
+            <p class="section-copy">
+              My idea was to create a playful scene where a teapot floats in the air and pours bubble tea through several cubes. The projection links the wall, one vertical cube, and two stacked cubes on the table, so the different three-dimensional positions feel connected by the movement of milk tea and pearls.
+            </p>
+          </div>
+        </div>
+
+        <div class="process-list">
+          <article class="process-item">
+            <span>01</span>
+            <h3>Projector Output</h3>
+            <p>At first, Toggle Output only appeared on the lower-left corner of my laptop screen while the projector still showed the extended desktop. I fixed it in Window Options by changing Monitor from 0 to 1, so TouchDesigner output appeared on the projector for mapping.</p>
+          </article>
+          <article class="process-item">
+            <span>02</span>
+            <h3>Kantan Mapping</h3>
+            <p>I used Kantan Mapper in TouchDesigner to match the projected image to several real planes, then controlled each plane&apos;s perspective and position.</p>
+          </article>
+          <article class="process-item">
+            <span>03</span>
+            <h3>AI Video Sources</h3>
+            <p>I generated separate videos with AI tools: a floating teapot, milk tea flowing from top to bottom, and pearls moving inside bubble tea.</p>
+          </article>
+          <article class="process-item">
+            <span>04</span>
+            <h3>Final Adjustment</h3>
+            <p>I mapped the videos onto the wall and cubes, then adjusted the mapping position, texture size, and scale in TouchDesigner until the final projection felt connected.</p>
+          </article>
+        </div>
+
+        <div class="setup-grid" aria-label="Windows projector and TouchDesigner monitor setup screenshots">
+          <figure class="setup-image">
+            <img src="extend.png" alt="Windows display settings showing extended monitors">
+          </figure>
+          <figure class="setup-image">
+            <img src="extend2.png" alt="TouchDesigner Window Options with monitor set to 1">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="gallery">
+      <div class="wrap">
+        <div class="gallery-intro">
+          <div>
+            <p class="section-kicker">TouchDesigner Gallery</p>
+            <h2>20 generated variations</h2>
+          </div>
+        </div>
+
+        <div class="gallery" aria-label="Twenty TouchDesigner visual variations">
+          <figure class="variant"><div class="variant-visual" data-label="Variant 01"><video src="1.mp4" autoplay muted loop playsinline aria-label="TouchDesigner variation 01"></video></div><figcaption><strong>01</strong><span>Video</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual" data-label="Variant 02"><video src="2.mp4" autoplay muted loop playsinline aria-label="TouchDesigner variation 02"></video></div><figcaption><strong>02</strong><span>Video</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual" data-label="Variant 03"><video src="3.mp4" autoplay muted loop playsinline aria-label="TouchDesigner variation 03"></video></div><figcaption><strong>03</strong><span>Video</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual" data-label="Variant 04"><video src="4.mp4" autoplay muted loop playsinline aria-label="TouchDesigner variation 04"></video></div><figcaption><strong>04</strong><span>Video</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual" data-label="Variant 05"><img src="5.gif" alt="TouchDesigner variation 05"></div><figcaption><strong>05</strong><span>GIF</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual" data-label="Variant 06"><img src="6.gif" alt="TouchDesigner variation 06"></div><figcaption><strong>06</strong><span>GIF</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual" data-label="Variant 07"><img src="7.gif" alt="TouchDesigner variation 07"></div><figcaption><strong>07</strong><span>GIF</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual" data-label="Variant 08"><img src="8.gif" alt="TouchDesigner variation 08"></div><figcaption><strong>08</strong><span>GIF</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual" data-label="Variant 09"><img src="9.gif" alt="TouchDesigner variation 09"></div><figcaption><strong>09</strong><span>GIF</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual fit-contain" data-label="Variant 10"><video src="10.mp4" autoplay muted loop playsinline aria-label="TouchDesigner variation 10"></video></div><figcaption><strong>10</strong><span>Video</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual fit-contain" data-label="Variant 11"><video src="11.mp4" autoplay muted loop playsinline aria-label="TouchDesigner variation 11"></video></div><figcaption><strong>11</strong><span>Video</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual" data-label="Variant 12"><img src="12.gif" alt="TouchDesigner variation 12"></div><figcaption><strong>12</strong><span>GIF</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual fit-contain" data-label="Variant 13"><img src="13.gif" alt="TouchDesigner variation 13"></div><figcaption><strong>13</strong><span>GIF</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual fit-contain" data-label="Variant 14"><img src="14.gif" alt="TouchDesigner variation 14"></div><figcaption><strong>14</strong><span>GIF</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual" data-label="Variant 15"><video src="15.mp4" autoplay muted loop playsinline aria-label="TouchDesigner variation 15"></video></div><figcaption><strong>15</strong><span>Video</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual" data-label="Variant 16"><video src="16.mp4" autoplay muted loop playsinline aria-label="TouchDesigner variation 16"></video></div><figcaption><strong>16</strong><span>Video</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual" data-label="Variant 17"><img src="17.gif" alt="TouchDesigner variation 17"></div><figcaption><strong>17</strong><span>GIF</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual" data-label="Variant 18"><img src="18.gif" alt="TouchDesigner variation 18"></div><figcaption><strong>18</strong><span>GIF</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual" data-label="Variant 19"><img src="19.gif" alt="TouchDesigner variation 19"></div><figcaption><strong>19</strong><span>GIF</span></figcaption></figure>
+          <figure class="variant"><div class="variant-visual" data-label="Variant 20"><img src="20.gif" alt="TouchDesigner variation 20"></div><figcaption><strong>20</strong><span>GIF</span></figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="reflection">
+      <div class="wrap">
+        <div class="section-heading">
+          <div class="section-kicker">Documentation</div>
+          <div>
+            <h2>What changed through variation and projection?</h2>
+          </div>
+        </div>
+
+        <div class="reflection">
+          <p>
+            <strong>20 Variations:</strong> The most interesting part of making the TouchDesigner variations was continuously changing the parameters inside each module and watching how the output responded. Small changes could shift the image, color, timing, rhythm, or motion, so the process felt like testing a visual system instead of making one fixed image.
+          </p>
+          <p>
+            <strong>Learning Process:</strong> I also realized that understanding the logic of the TouchDesigner file is very important. For example, a music file can be analyzed for drum beat information, and that data can control the scale or color of a 3D model. I still do not fully understand every part of this workflow yet, so I think I need more practice to become fluent with it.
+          </p>
+        </div>
+
+        <div class="process-gallery" aria-label="TouchDesigner process screenshots">
+          <figure class="process-shot">
+            <img src="process1.png" alt="TouchDesigner process screenshot 01">
+          </figure>
+          <figure class="process-shot">
+            <img src="process2.png" alt="TouchDesigner process screenshot 02">
+          </figure>
+          <figure class="process-shot">
+            <img src="process3.png" alt="TouchDesigner process screenshot 03">
+          </figure>
+          <figure class="process-shot">
+            <img src="process4.png" alt="TouchDesigner process screenshot 04">
+          </figure>
+          <figure class="process-shot">
+            <img src="process5.png" alt="TouchDesigner process screenshot 05">
+          </figure>
+          <figure class="process-shot">
+            <img src="process6.png" alt="TouchDesigner process screenshot 06">
+          </figure>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      Creative Technology 2 Documentation / Spring 2026
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll(".variant-visual img, .process-shot img").forEach((image) => {
+      image.addEventListener("error", () => {
+        image.removeAttribute("src");
+        image.setAttribute("aria-hidden", "true");
+      });
+    });
+  </script>
+</body>
+</html>
